@@ -4,16 +4,26 @@
   hosts: default
 
   tasks:
+   - name: Echo SSH_KEY_ENV
+     shell: "echo $SSH_KEY_ENV"
+     environment:
+      SSH_KEY_ENV: whatever_value 
+      
+  - name: Build Docker image from Dockerfile
+    docker_image:
+      name: appimage
+      state: build
+ 
   - name: Running the container
     docker_container:
       name: container1
-      image: someuser/appimage
+      image: appimage
       state: running
 
   - name: Running the container
         docker_container:
           name: container2
-          image: someuser/appimage
+          image: appimage
           state: running
           links:
            - "container1:container1"
